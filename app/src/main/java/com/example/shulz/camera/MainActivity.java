@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private void cameraIntent()//open the camera of user
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//launch the existing camera app of user
-        startActivityForResult(intent, REQUEST_CAMERA);//call
+        startActivityForResult(intent, 0);//call
     }
 
     private void galleryIntent() //runs on version 3.0 and above (honeycomb)
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image"),SELECT_FILE_NAME);//calls onactivityResult
+        startActivityForResult(Intent.createChooser(intent, "Select Image"),1);//calls onactivityResult
     }
 
     @Override
@@ -105,11 +105,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(resultCode == Activity.RESULT_OK)
         {
-            if(requestCode == SELEC_FILE_NAME)
+            if(requestCode == 1)
             {
                 onSelectFromGalleryResult(data);
             }
-            else if (requestCode == REQUEST_CAMERA)
+            else if (requestCode == 0)
             {
                 onCaptureImageResult(data);
             }
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        ivImage.setImageBitmap(bit);
+        imageView.setImageBitmap(bit);
     }
 
     private void onCaptureImageResult(Intent data)
@@ -161,11 +161,13 @@ public class MainActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-        ivImage.setImageBitmap(thumbnail);
+        imageView.setImageBitmap(thumbnail);
 
 
     }
 }
+//API LEVEL 22
+
 //http://stackoverflow.com/questions/3226495/how-to-exit-from-the-application-and-show-the-home-screen#
 //http://www.theappguruz.com/blog/android-take-photo-camera-gallery-code-sample
 //Github rep name CAMERA_API_23
