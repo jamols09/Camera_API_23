@@ -105,11 +105,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(resultCode == Activity.RESULT_OK)
         {
-            if(requestCode == 1)
+            if(requestCode == 1) //SELECT_FILE is 1
             {
                 onSelectFromGalleryResult(data);
             }
-            else if (requestCode == 0)
+            else if (requestCode == 0)// REQUEST_CAMERA  is 0
             {
                 onCaptureImageResult(data);
             }
@@ -126,11 +126,11 @@ public class MainActivity extends AppCompatActivity {
         {
             try
             {
-                bit = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),data.getData());
+                bit = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),data.getData());//Android saves the images in its own database. Get the image from database
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                e.printStackTrace(); //print error
             }
         }
         imageView.setImageBitmap(bit);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG,80,bytes);
+        thumbnail.compress(Bitmap.CompressFormat.JPEG,80,bytes);//compresses the image into thumbnail
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis()+".jpg");
 
@@ -155,11 +155,11 @@ public class MainActivity extends AppCompatActivity {
 
         catch (FileNotFoundException e)
         {
-            e.printStackTrace();
+            e.printStackTrace(); //print error if found
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            e.printStackTrace(); //print error if found
         }
         imageView.setImageBitmap(thumbnail);
 
