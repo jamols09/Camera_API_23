@@ -5,11 +5,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.DomainCombiner;
 import java.util.ArrayList;
@@ -134,6 +139,31 @@ public class MainActivity extends AppCompatActivity {
     private void onCaptureImageResult(Intent data)
     {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG,80,bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis()+".jpg");
+
+        FileOutputStream f;
+        try
+        {
+            destination.createNewFile();
+            f = new FileOutputStream(destination);
+            f.write(bytes.toByteArray());
+            f.close();
+        }
+
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        ivImage.setImageBitmap(thumbnail);
+
+
     }
 }
 //http://stackoverflow.com/questions/3226495/how-to-exit-from-the-application-and-show-the-home-screen#
