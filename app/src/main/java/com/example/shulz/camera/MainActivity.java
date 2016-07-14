@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    String userChoosenTask="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         if(result){
                             galleryIntent();
                         }else if (options[i].equals("Cancel")){
-                            dialog.dismiss();
+                            dialogInterface.dismiss();
                         }
                     }
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         build.show();
     }
 
-    public void onRequestPermissionsResult(int requestCode, String[] permission, int grantResults)
+    public void onRequestPermissionsResult(int requestCode, String[] permission, int[] grantResults)
     {
         switch (requestCode)
         {
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private void galleryIntent() //runs on version 3.0 and above (honeycomb)
     {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/*");//gets specific file type only
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Image"),1);//calls onactivityResult
     }
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         try
         {
             destination.createNewFile();
-            f = new FileOutputStream(destination);
+            f = new FileOutputStream(destination);  //writes the image into the destination(file)
             f.write(bytes.toByteArray());
             f.close();
         }
@@ -166,8 +167,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
+
 //API LEVEL 22
 
 //http://stackoverflow.com/questions/3226495/how-to-exit-from-the-application-and-show-the-home-screen#
 //http://www.theappguruz.com/blog/android-take-photo-camera-gallery-code-sample
-//Github rep name CAMERA_API_23
+//Github rep name CAMERA_API_22
