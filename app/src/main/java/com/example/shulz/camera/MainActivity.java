@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -20,7 +21,7 @@ import java.security.DomainCombiner;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    ImageView imageView = (ImageView)findViewById(R.id.iv);
     String userChoosenTask="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     {
         switch (requestCode)
         {
-            case Utility.MY_PERMISSIONS_READ_EXTERNAL_STORAGE:  //request memory reading but now know why needed to implement.
+            case Utility.READ_EXTERNAL_STORAGE:  //request memory reading but now know why needed to implement.
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
                     if(userChoosenTask.equals("Take Photo"))
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
     // disable code warnings. deprecated code & unused methods/variables
     @SuppressWarnings("deprecation")
-    @SuppressWarnings("unused")
+
 
     private void onSelectFromGalleryResult(Intent data)//create bitmap which handles image
     {
