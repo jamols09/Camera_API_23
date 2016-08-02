@@ -14,34 +14,42 @@
             android:layout_gravity="center"
             android:padding="5dp">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Photo"
+            android:id="@+id/buttonphoto"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/material_deep_teal_200"
+            android:onClick="chooseOption" />
+
         </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Photo"
-        android:id="@+id/buttonphoto"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/material_deep_teal_200" />
+
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:padding="10dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:minHeight="400dp"
+        android:background="#000000">
 
 
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv"
+            android:layout_gravity="center_horizontal"
+            android:minHeight="320dp"
+            android:minWidth="320dp"
+            android:background="#f0e6b9"
+            android:src="#c8fbf5" />
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv"
-        android:layout_gravity="center_horizontal"
-        android:src="@android:drawable/ic_menu_camera" />
+
 
 
 </LinearLayout>

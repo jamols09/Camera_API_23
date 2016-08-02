@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -27,20 +28,26 @@ import java.security.DomainCombiner;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ImageView imageView;
-    String userChoosenTask="";
+    private ImageView imageView;
+    private String userChoosenTask="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageView = (ImageView)findViewById(R.id.iv);
-        selectImage();
+
         if(getIntent().getBooleanExtra("Exit me", false)){
             finish();
             return;
         }
 
+    }
+
+    public void chooseOption(View v)
+    {
+        selectImage();
     }
 
     private void selectImage(){
@@ -53,15 +60,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 boolean result = Utility.checkPermission(MainActivity.this); //request permission of application
+
                 if (options[i].equals("Take Photo")){
                     userChoosenTask="Take Photo";
+
                     if(result){
                         cameraIntent();
-                    }else if(options[i].equals("Library")){
+                    }
+
+                    else if(options[i].equals("Library")){
                         userChoosenTask="Library";
+
                         if(result){
                             galleryIntent();
-                        }else if (options[i].equals("Cancel")){
+                        }
+
+                        else if (options[i].equals("Cancel")){
                             dialogInterface.dismiss();
                         }
                     }
@@ -80,9 +94,13 @@ public class MainActivity extends AppCompatActivity {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
                     if(userChoosenTask.equals("Take Photo"))
+                    {
                         cameraIntent();
+                    }
                     else if(userChoosenTask.equals("Library"))
+                    {
                         galleryIntent();
+                    }
                 }
                 else
                 {
@@ -128,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
     }
     // disable code warnings. deprecated code & unused methods/variables
     @SuppressWarnings("deprecation")
-
-
     private void onSelectFromGalleryResult(Intent data)//create bitmap which handles image
     {
         Bitmap bit = null;
@@ -151,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG,80,bytes);//compresses the image into thumbnail
+        thumbnail.compress(Bitmap.CompressFormat.JPEG,100,bytes);//compresses the image into thumbnail
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis()+".jpg");
 
