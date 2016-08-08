@@ -197,8 +197,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//API LEVEL 22
+//API LEVEL 23
 
 //http://stackoverflow.com/questions/3226495/how-to-exit-from-the-application-and-show-the-home-screen#
 //http://www.theappguruz.com/blog/android-take-photo-camera-gallery-code-sample
-//Github rep name CAMERA_API_22
+//Github rep name jamols/CAMERA_API_23
+//http://www.androidinterview.com/android-gallery-view-example-displaying-a-list-of-images/
+//http://stacktips.com/tutorials/android/android-gridview-example-building-image-gallery-in-android
