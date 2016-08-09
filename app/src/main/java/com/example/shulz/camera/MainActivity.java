@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -30,18 +33,36 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private String userChoosenTask="";
-
+    private GridViewAdapter gridViewAdapter;
+    private GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Declares the functions for gallery
         imageView = (ImageView)findViewById(R.id.iv);
+        gridView = (GridView) findViewById(R.id.gridView);
+        gridViewAdapter = new GridViewAdapter(this, R.layout.activity_grid_item_layout,getData());
+        gridView.setAdapter(gridViewAdapter);
 
         if(getIntent().getBooleanExtra("Exit me", false)){
             finish();
             return;
         }
+
+        //Storage data for gridview
+        private ArrayList<ImageItem> getData()
+        {
+            final ArrayList<ImageItem> imageItems = new ArrayList<>();
+            TypedArray images = getResources().obtainTypedArray(R.array.image_ids);
+            for(int a = 0; a < images.length(); a++)
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),images.getResourceId(i,-1));
+            imageItems.add(new ImageItem(bitmap,"Image#" + i));
+        }
+
+        return imageItems;
 
     }
 
