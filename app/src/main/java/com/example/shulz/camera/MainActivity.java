@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -30,39 +31,28 @@ import java.io.IOException;
 import java.security.DomainCombiner;
 import java.util.ArrayList;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private String userChoosenTask="";
-    private GridViewAdapter gridViewAdapter;
+    private final int CHOOSE_IMAGE = 2;
     private GridView gridView;
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageView =(ImageView)findViewById(R.id.iv);
+        PhotoViewAttacher photo = new PhotoViewAttacher(imageView);
+        photo.update();
 
-        //Declares the functions for gallery
-        imageView = (ImageView)findViewById(R.id.iv);
-        gridView = (GridView) findViewById(R.id.gridView);
-        gridViewAdapter = new GridViewAdapter(this, R.layout.activity_grid_item_layout,getData());
-        gridView.setAdapter(gridViewAdapter);
 
         if(getIntent().getBooleanExtra("Exit me", false)){
             finish();
             return;
         }
-
-        //Storage data for gridview
-        private ArrayList<ImageItem> getData()
-        {
-            final ArrayList<ImageItem> imageItems = new ArrayList<>();
-            TypedArray images = getResources().obtainTypedArray(R.array.image_ids);
-            for(int a = 0; a < images.length(); a++)
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),images.getResourceId(i,-1));
-            imageItems.add(new ImageItem(bitmap,"Image#" + i));
-        }
-
-        return imageItems;
 
     }
 
@@ -72,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectImage(){
-        final String options[] = {"Take Photo","Library","Cancel"};
+            final String options[] = {"Take Photo","Library","Cancel"};
 
         AlertDialog.Builder build = new AlertDialog.Builder(MainActivity.this);
         build.setTitle("Add Photo");
@@ -88,20 +78,21 @@ public class MainActivity extends AppCompatActivity {
                     if(result){
                         cameraIntent();
                     }
+                }
 
-                    else if(options[i].equals("Library")){
-                        userChoosenTask="Library";
+                else if(options[i].equals("Library")){
+                    userChoosenTask="Library";
 
-                        if(result){
-                            galleryIntent();
-                        }
-
-                        else if (options[i].equals("Cancel")){
-                            dialogInterface.dismiss();
-                        }
+                    if(result){
+                        galleryIntent();
                     }
+                }
+                else if (options[i].equals("Cancel")){
+                    dialogInterface.dismiss();
 
                 }
+
+
             }
         });
         build.show();
@@ -143,14 +134,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void galleryIntent() //runs on version 3.0 and above (honeycomb)
     {
-        Intent intent = new Intent();
-        intent.setType("image/*");//gets specific file type only
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image"),1);//calls onactivityResult
+        Intent gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, CHOOSE_IMAGE);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {//call from startacitivityforresult
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { //call from startacitivityforresult
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == Activity.RESULT_OK)
@@ -163,6 +152,12 @@ public class MainActivity extends AppCompatActivity {
             {
                 onCaptureImageResult(data);
             }
+        }
+
+        if(resultCode == RESULT_OK && requestCode == CHOOSE_IMAGE)
+        {
+            imageUri = data.getData();
+            imageView.setImageURI(imageUri);
         }
     }
     // disable code warnings. deprecated code & unused methods/variables
