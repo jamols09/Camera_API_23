@@ -49,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         PhotoViewAttacher photo = new PhotoViewAttacher(imageView);
         photo.update();
 
+        //Makes button unclickable if there is no image
         if (imageView.getDrawable().isVisible())
         {
             clearButton = (Button) findViewById(R.id.clearimage);
             clearButton.setClickable(false);
              Toast.makeText(getApplicationContext(),"INVISIBLE",Toast.LENGTH_LONG).show();
         }
+        //makes button clickable
         else
         {
             clearButton = (Button) findViewById(R.id.clearimage);
