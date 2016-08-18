@@ -1,35 +1,34 @@
 package com.example.shulz.camera;
 
-import android.Manifest;
-import android.annotation.TargetApi;
+
 import android.app.Activity;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
+
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.net.Uri;
-import android.os.Build;
+
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.DomainCombiner;
-import java.util.ArrayList;
+
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -38,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private String userChoosenTask="";
     private final int CHOOSE_IMAGE = 2;
     private GridView gridView;
-    Uri imageUri;
+    private Uri imageUri;
+    private Button clearButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +49,25 @@ public class MainActivity extends AppCompatActivity {
         PhotoViewAttacher photo = new PhotoViewAttacher(imageView);
         photo.update();
 
+        if (imageView.getDrawable().isVisible())
+        {
+            clearButton = (Button) findViewById(R.id.clearimage);
+            clearButton.setClickable(false);
+             Toast.makeText(getApplicationContext(),"INVISIBLE",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            clearButton = (Button) findViewById(R.id.clearimage);
+            clearButton.setClickable(true);
+            Toast.makeText(getApplicationContext(),"VISIBLE",Toast.LENGTH_LONG).show();
+        }
 
         if(getIntent().getBooleanExtra("Exit me", false)){
             finish();
             return;
         }
+
+
 
     }
 
