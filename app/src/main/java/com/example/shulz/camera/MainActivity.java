@@ -1,24 +1,16 @@
 package com.example.shulz.camera;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -28,8 +20,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.DomainCombiner;
-import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -51,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(getIntent().getBooleanExtra("Exit me", false)){
             finish();
-            return;
         }
 
     }
@@ -62,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectImage(){
-            final String options[] = {"Take Photo","Library","Cancel"};
+            final String options[] = {"Camera","Color Blob Detection","Library","Cancel"};
 
         AlertDialog.Builder build = new AlertDialog.Builder(MainActivity.this);
         build.setTitle("Add Photo");
@@ -72,11 +61,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 boolean result = Utility.checkPermission(MainActivity.this); //request permission of application
 
-                if (options[i].equals("Take Photo")){
-                    userChoosenTask="Take Photo";
+                if(options[i].equals("Camera")){
+                    userChoosenTask="Camera";
 
                     if(result){
                         cameraIntent();
+                    }
+                }
+
+                else if(options[i].equals("Color Blob Detection")){
+                    userChoosenTask="Color Blob Detection";
+
+                    if(result){
+                        cameraCBDIntent();
                     }
                 }
 
@@ -105,9 +102,14 @@ public class MainActivity extends AppCompatActivity {
             case Utility.READ_EXTERNAL_STORAGE:  //request memory reading but not know why needed to implement.
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
-                    if(userChoosenTask.equals("Take Photo"))
+
+                    if(userChoosenTask.equals("Camera"))
                     {
                         cameraIntent();
+                    }
+                    if(userChoosenTask.equals("Color Blob Detection"))
+                    {
+                        cameraCBDIntent();
                     }
                     else if(userChoosenTask.equals("Library"))
                     {
@@ -126,9 +128,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void cameraIntent()//open the camera of user
+
+    private void cameraIntent()//open built-in camera
     {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//launch the existing camera app of user
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 3);
+    }
+
+    private void cameraCBDIntent()//open the camera of user with image processing
+    {
+        Intent intent = new Intent(MainActivity.this, Camera.class);//launch the existing camera app of user
         startActivityForResult(intent, 0);//call
     }
 
