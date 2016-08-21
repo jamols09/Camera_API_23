@@ -21,7 +21,7 @@
             android:text="Photo"
             android:id="@+id/buttonphoto"
             android:layout_gravity="center_horizontal"
-            android:background="@color/material_deep_teal_200"
+            android:background="#b8f7ea"
             android:onClick="chooseOption" />
 
         </LinearLayout>
@@ -45,7 +45,7 @@
             android:layout_gravity="center_horizontal"
             android:minHeight="320dp"
             android:minWidth="320dp"
-            android:background="#f0e6b9"
+            android:background="#aef1f3"
             android:src="#c8fbf5" />
 
     </LinearLayout>
