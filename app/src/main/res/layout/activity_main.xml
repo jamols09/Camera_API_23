@@ -35,18 +35,47 @@
         android:padding="10dp"
         android:gravity="center"
         android:minHeight="400dp"
-        android:background="#000000">
+        android:background="#ffffff">
 
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/iv"
             android:layout_gravity="center_horizontal"
-            android:minHeight="320dp"
-            android:minWidth="320dp"
             android:background="#f0e6b9"
-            android:src="#c8fbf5" />
+            android:src="#c8fbf5"
+            android:minHeight="240dp"
+            android:layout_weight="250" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter"
+                android:id="@+id/filter"
+                android:background="@color/material_deep_teal_200" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CBD"
+                android:id="@+id/colorblob"
+                android:background="@color/material_deep_teal_200" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:id="@+id/clearimage"
+                android:background="@color/material_deep_teal_200" />
+        </LinearLayout>
 
     </LinearLayout>
 
